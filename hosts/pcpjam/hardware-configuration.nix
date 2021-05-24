@@ -18,6 +18,9 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
 
+  #fix touchpac
+  # hardware.enableAllFirmware = true;
+  
   # CPU
   nix.maxJobs = lib.mkDefault 16;
   powerManagement.cpuFreqGovernor = "ondemand";

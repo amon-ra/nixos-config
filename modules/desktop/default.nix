@@ -61,6 +61,7 @@ in {
     };
 
     ## Apps/Services
+    services.xserver.synaptics.enable = true;
     services.xserver.displayManager.lightdm.greeters.mini.user = config.user.name;
 
     services.picom = {
