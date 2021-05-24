@@ -14,7 +14,7 @@ in {
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
       editorconfig-core-c
-      unstable.neovim
+      neovim
     ];
 
     # This is for non-neovim, so it loads my nvim config
@@ -22,7 +22,7 @@ in {
 
     environment.shellAliases = {
       vim = "nvim";
-      v   = "nvim";
+      v   = "f -e nvim";
     };
   };
 }

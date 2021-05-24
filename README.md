@@ -1,15 +1,10 @@
-[![Made with Doom Emacs](https://img.shields.io/badge/Made_with-Doom_Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white)](https://github.com/hlissner/doom-emacs)
-[![NixOS 21.05](https://img.shields.io/badge/NixOS-v21.05-blue.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
+[![NixOS 20.09](https://img.shields.io/badge/NixOS-v20.09-blue.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
 
 **Hey,** you. You're finally awake. You were trying to configure your OS declaratively, right? Walked right into that NixOS ambush, same as us, and those dotfiles over there.
 
-<img src="/../screenshots/alucard/fakebusy.png" width="100%" />
+Note that this repository is a fork of [Henrik Lissner's dotfiles](https://github.com/hlissner/dotfiles).
 
-<p align="center">
-<span><img src="/../screenshots/alucard/desktop.png" height="178" /></span>
-<span><img src="/../screenshots/alucard/rofi.png" height="178" /></span>
-<span><img src="/../screenshots/alucard/tiling.png" height="178" /></span>
-</p>
+**Screenshots follow as soon as bspwm config is done.**
 
 ------
 
@@ -18,8 +13,8 @@
 | **Shell:** | zsh + zgen |
 | **DM:** | lightdm + lightdm-mini-greeter |
 | **WM:** | bspwm + polybar |
-| **Editor:** | [Doom Emacs][doom-emacs] (and occasionally [vim]) |
-| **Terminal:** | st |
+| **Editor:** | [micro] (and occasionally vim) |
+| **Terminal:** | kitty |
 | **Launcher:** | rofi |
 | **Browser:** | firefox |
 | **GTK Theme:** | [Ant Dracula](https://github.com/EliverLara/Ant-Dracula) |
@@ -27,18 +22,26 @@
 -----
 
 ## Quick start
+nix-shell -p nixFlakes git
 
-1. Yoink the latest build of [NixOS 21.05][nixos].
+1. Yoink [NixOS 20.09][nixos].
 2. Boot into the installer.
-3. Do your partitions and mount your root to `/mnt` ([for example](hosts/kuro/README.org))
-4. Install these dotfiles:
-5. `nix-shell -p git nixFlakes`
-6. `git clone https://github.com/hlissner/dotfiles /mnt/etc/nixos`
-7. Install NixOS: `nixos-install --root /mnt --flake /mnt/etc/nixos#XYZ`, where
-   `XYZ` is [the host you want to install](hosts/).  Use `#generic` for a
-   simple, universal config, or create a sub-directory in `hosts/` for your device. See [host/kuro] for an example.
-8. Reboot!
-9. Change your `root` and `$USER` passwords!
+3. Do your partitions and mount your root to `/mnt`. I recommend first doing `sudo su` for ease of use. Be careful with those labels though.
+4. Clone the repo with `git clone https://github.com/totoroot/dotfiles-nixos /mnt/etc/nixos`.
+6. In case git is not installed, run `nix-env -iA nixos.git`.
+7. Make sure the config you are about to install has the right hardware-configuration.
+8. For a new host enter the cloned repo and duplicate an existing configuration (`cd nixos && cp -r hosts/purple hosts/<new-host>`) and make adjustments with `nano hosts/<new-host>/default.nix`.
+
+   For a different partitioning scheme make sure to change the hardware-configuration with `nano hosts/<new-host>/hardware-configuration.nix`.
+
+   In case you dont know how to set up this config run `nixos-generate-config --dir hosts/<new-host>/ && rm hosts/<new-host>/configuration.nix`
+9. Add nixPkgs channel and install flakes `nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs && nix-channel --update && nix-env -iA nixpkgs.nixFlakes`.
+10. Install NixOS with configuration for host "purple" `nixos-install --root /mnt --flake /mnt/etc/nixos#purple`.
+11. Edit either `~/.config/nix/nix.conf` or `/etc/nix/nix.conf` and add `experimental-features = nix-command flakes`.
+
+This is needed to expose the Nix 2.0 CLI and flakes support that are hidden behind feature-flags. 
+
+11. Reboot!
 
 ## Management
 
@@ -79,30 +82,31 @@ Options:
   Because declarative, generational, and immutable configuration is a godsend
   when you have a fleet of computers to manage.
   
-+ **How do you manage secrets?**
-
-  With [agenix].
-  
 + **How do I change the default username?**
 
   1. Set the `USER` environment variable the first time you run `nixos-install`:
-     `USER=myusername nixos-install --root /mnt --flake /path/to/dotfiles#XYZ`
-  2. Or change `"hlissner"` in modules/options.nix.
-  
-+ **Why did you write bin/hey?**
+  `USER=myusername nixos-install --root /mnt --flake /path/to/dotfiles#XYZ`
+  2. Or change `"mathym"` in modules/options.nix.
 
-  I envy Guix's CLI and want similar for NixOS, but its toolchain is spread
-  across many commands, none of which are as intuitive: `nix`,
-  `nix-collect-garbage`, `nixos-rebuild`, `nix-env`, `nix-shell`.
++ **How do I "set up my partitions"?**
+
+  My main host [has a README](hosts/purple/README.org) you can use as a reference.
+  I set up an EFI+GPT system and partitions with `parted`.
+
+  **Why did you write bin/hey?**
   
-  I don't claim `hey` is the answer, but everybody likes their own brew.
- 
+    I envy Guix's CLI and want similar for NixOS, but its toolchain is spread
+    across many commands, none of which are as intuitive: `nix`,
+    `nix-collect-garbage`, `nixos-rebuild`, `nix-env`, `nix-shell`.
+  
+    I don't claim `hey` is the answer, but everybody likes their own brew.
+
 + **How 2 flakes?**
 
   Would it be the NixOS experience if I gave you all the answers in one,
   convenient place?
   
-  No. Suffer my pain:
+  No, but here are some resources that helped me:
   
   + [A three-part tweag article that everyone's read.](https://www.tweag.io/blog/2020-05-25-flakes/)
   + [An overengineered config to scare off beginners.](https://github.com/nrdxp/nixflk)
@@ -121,8 +125,6 @@ Options:
   + [What y'all will need when Nix drives you to drink.](https://www.youtube.com/watch?v=Eni9PPPPBpg)
 
 
-[doom-emacs]: https://github.com/hlissner/doom-emacs
-[vim]: https://github.com/hlissner/.vim
-[nixos]: https://releases.nixos.org/?prefix=nixos/unstable/
-[host/kuro]: https://github.com/hlissner/dotfiles/tree/master/hosts/kuro
-[agenix]: https://github.com/ryantm/agenix
+[micro]: https://micro-editor.github.io
+[nixos]: https://releases.nixos.org/?prefix=nixos/20.09-small/
+[host/purple]: https://github.com/totoroot/dotfiles/tree/master/hosts/purple

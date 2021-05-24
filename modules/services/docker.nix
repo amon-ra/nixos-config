@@ -3,7 +3,6 @@
 with lib;
 with lib.my;
 let cfg = config.modules.services.docker;
-    configDir = config.dotfiles.configDir;
 in {
   options.modules.services.docker = {
     enable = mkBoolOpt false;
@@ -13,6 +12,8 @@ in {
     user.packages = with pkgs; [
       docker
       docker-compose
+      lazydocker          # terminal UI for docker and docker-compose
+      ctop                # container activity monitor
     ];
 
     env.DOCKER_CONFIG = "$XDG_CONFIG_HOME/docker";

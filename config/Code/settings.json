@@ -1,0 +1,111 @@
+{
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "json.schemas": [
+        {
+            "name": "vscode-expo-manifest",
+            "url": "file:///home/juanra/.config/Code/User/globalStorage/bycedric.vscode-expo/manifest-41.0.0.json",
+            "fileMatch": [
+                "app.json",
+                "app.config.json"
+            ]
+        }
+    ],
+    "todo-tree.tree.showScanModeButton": false,
+    "editor.codeActionsOnSave": null,
+    // "terminal.integrated.shell.linux": "/usr/bin/zsh",
+    "intelephense.files.exclude": "**/_**,**/.git/**,**/.svn/**,**/.hg/**,**/CVS/**,**/.DS_Store/**,**/node_modules/**,**/bower_components/**,**/vendor/**/{Test,test,Tests,tests}/**",
+    "editor.minimap.enabled": false,
+    "git.enableSmartCommit": true,
+    "explorer.confirmDragAndDrop": false,
+    "explorer.confirmDelete": false,
+    "update.mode":"none",
+    "git.autofetch": true,
+    "javascript.implicitProjectConfig.checkJs": true,
+    "window.zoomLevel": -1,
+    "gitlens.keymap": "chorded",
+    "extensions.ignoreRecommendations": true,
+    "gitlens.advanced.messages": {
+        "suppressCommitHasNoPreviousCommitWarning": false,
+        "suppressCommitNotFoundWarning": false,
+        "suppressFileNotUnderSourceControlWarning": false,
+        "suppressGitVersionWarning": false,
+        "suppressLineUncommittedWarning": false,
+        "suppressNoRepositoryWarning": false,
+        "suppressResultsExplorerNotice": false,
+        "suppressShowKeyBindingsNotice": true
+    },
+    "gitlens.historyExplorer.enabled": true,
+    "terminal.external.linuxExec": "alacritty",
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.fontSize": 11,
+    "files.autoSave": "off",
+    "terminal.integrated.rendererType": "canvas",
+    "editor.multiCursorModifier": "alt",
+    "blueprint.templatesPath": [
+        "~/.vscode/blueprint-templates",
+        "~/.config/Code/User/blueprint-templates",
+        "~/.config/Code - Insiders/User/blueprint-templates"
+    ],
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "zenMode.restore": true,
+    "gitlens.views.fileHistory.enabled": true,
+    "gitlens.views.lineHistory.enabled": true,
+    "editor.fontLigatures": true,
+    "editor.fontFamily": "'Fira Code','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "terminal.integrated.cursorBlinking": true,
+    "python.linting.pycodestyleCategorySeverity.E": "Warning",
+    "python.linting.pycodestyleCategorySeverity.W": "Information",
+    "python.linting.pycodestyleEnabled": true,
+    "vim.neovimPath": "/usr/bin/nvim",
+    "vim.enableNeovim": true,
+    "editor.largeFileOptimizations": false,
+    "python.insidersChannel": "off",
+    "kite.showWelcomeNotificationOnStartup": false,
+    "files.watcherExclude": {
+        "**/.*": true,
+        "**/node_modules/**": true
+    },
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "diffEditor.ignoreTrimWhitespace": false,
+    "http.proxyAuthorization": null,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+    },
+    "xml.codeLens.enabled": true,
+    "xml.trace.server": "verbose",
+    "xml.java.home": "/usr/lib/jvm/java-8-openjdk",
+    "python.dataScience.disableJupyterAutoStart": true,
+    "python.dataScience.searchForJupyter": false,
+    "python.dataScience.allowImportFromNotebook": false,
+    "python.dataScience.enableScrollingForCellOutputs": false,
+    "editor.maxTokenizationLineLength": 200000,
+    "python.analysis.typeCheckingMode": "basic",
+    "vsintellicode.features.python.deepLearning": "enabled",
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "todo-tree.general.tags": [
+        "BUG",
+        "HACK",
+        "FIXME",
+        "TODO",
+        "XXX",
+        "[ ]",
+        "[x]"
+    ],
+    "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    
+}

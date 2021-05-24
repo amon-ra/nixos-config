@@ -1,20 +1,28 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
-# case $HOSTNAME in
-#   kuro)  export LAN=eno1   ;;
-#   shiro) export LAN=wlp3s0 ;;
-# esac
+set -x
 
 export MONITOR=$(xrandr -q | grep primary | cut -d' ' -f1)
 export MONITORS=( $(xrandr -q | grep ' connected' | cut -d' ' -f1) )
 MONITOR=${MONITOR:-${MONITORS[0]}}
 
-# Only have workspaces for primary monitor
-bspc monitor $MONITOR -d {1,2,3,4,5}
+if [ ${#MONITORS[@]} -eq 2 ]; then
+        xrandr --output ${MONITORS[1]} --primary --below ${MONITORS[2]}
+        # set workspaces
+        bspc monitor ${MONITORS[1]} -d {1,2,3,4,5}
+        bspc monitor ${MONITORS[2]} -d {6,7,8,9,0}
+elif [ ${#MONITORS[@]} -eq 3 ]; then
+        xrandr --output ${MONITORS[1]}
+        bspc monitor ${MONITORS[0]} -d {1,2,3,4}
+        bspc monitor ${MONITORS[1]} -d {5,6,7,8}
+        bspc monitor ${MONITORS[2]} -d {9,0}
+else
+    xrandr --auto
+    bspc monitor ${MONITOR} -d {1,2,3,4,5,6,7,8,9,0}
+fi
 
 bspc config remove_disabled_monitors true
 bspc config remove_unplugged_monitors true
-
 
 # Rules
 bspc rule -r '*'
@@ -28,7 +36,12 @@ bspc rule -a 'Emacs:scratch' state=floating
 bspc rule -a 'Emacs:emacs-everywhere' state=floating sticky=on
 bspc rule -a '*:scratch' state=floating sticky=on center=on border=off rectangle=1000x800+0+0
 
-#
+
+
+# source rc files
 for file in $XDG_CONFIG_HOME/bspwm/rc.d/*; do
   source "$file"
 done
+
+# workaround to autostart mullvad-vpn
+#command -v mullvad-vpn >/dev/null && mullvad-vpn

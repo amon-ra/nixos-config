@@ -18,6 +18,8 @@ in {
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
       shellcheck
+      dbeaver
+      gnome3.meld
     ];
   };
 }

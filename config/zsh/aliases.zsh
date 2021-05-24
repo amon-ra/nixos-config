@@ -2,56 +2,55 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias -- -='cd -'
-alias cdg='cd `git rev-parse --show-toplevel`'
 
 alias q=exit
 alias clr=clear
-alias sudo='sudo '
+alias please='sudo '
 alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-alias mkdir='mkdir -pv'
+alias purge='rm -rf'
+alias cp='cp -rv'
+alias mv='mv -v'
+alias mkdir='mkdir -p'
 alias wget='wget -c'
-alias path='echo -e ${PATH//:/\\n}'
-alias ports='netstat -tulanp'
+alias cat='bat -Pp'
+alias find='fd'
+alias replace='sd'
+alias cdd='cd $XDG_CONFIG_HOME/dotfiles'
+alias cds='cd /etc/nixos'
 
 alias mk=make
+alias rcp='rsync -vaP --delete'
+alias rmirror='rsync -rtvu --delete'
 alias gurl='curl --compressed'
+alias disks='lsblk -o name,label,mountpoint,size,uuid'
 
-alias shutdown='sudo shutdown'
-alias reboot='sudo reboot'
+alias clipin='xclip -sel clip -i'
+alias clipout='xclip -sel clip -o'
 
-# An rsync that respects gitignore
-rcp() {
-  # -a = -rlptgoD
-  #   -r = recursive
-  #   -l = copy symlinks as symlinks
-  #   -p = preserve permissions
-  #   -t = preserve mtimes
-  #   -g = preserve owning group
-  #   -o = preserve owner
-  # -z = use compression
-  # -P = show progress on transferred file
-  # -J = don't touch mtimes on symlinks (always errors)
-  rsync -azPJ \
-    --include=.git/ \
-    --filter=':- .gitignore' \
-    --filter=":- $XDG_CONFIG_HOME/git/ignore" \
-    "$@"
-}; compdef rcp=rsync
-alias rcpd='rcp --delete --delete-after'
-alias rcpu='rcp --chmod=go='
-alias rcpdu='rcpd --chmod=go='
+alias colorpick="print '\nPicking color in 5 seconds...\n' && sleep 5 && colorpicker --short --one-shot | tr -d '\n' | xclip -sel clip && xclip -sel clip -o"
 
-alias y='xclip -selection clipboard -in'
-alias p='xclip -selection clipboard -out'
+# ugly yet beautiful...hacky for sure
+alias viewdeps='(){ nix-env -iA nixos.$1 --dry-run ;}'
+alias inst='(){ nix-env -iA nixos.$1 ;}'
+alias viewinst='nix-env --query --installed'
 
-alias jc='journalctl -xe'
+# edit zshrc
+alias zshconfig="$EDITOR ~/.zshrc"
+# source zshrc
+alias zshsource="source ~/.zshrc"
+# alias to scan wireless network for connected devices
+alias scan="sudo nmap -sn 192.168.8.0/24 | sed -e 's#.*for \(\)#\1#' | sed '/^Host/d' | sed '/MAC/{G;}'"
+# find largest files in directory
+alias ducks="sudo du -cks -- * | sort -rn | head"
+# rm EXIF data from images in directory
+alias rmexif='exiftool -all='
+
+
 alias sc=systemctl
 alias ssc='sudo systemctl'
 
 if command -v exa >/dev/null; then
-  alias exa="exa --group-directories-first --git";
+  alias exa="exa --group-directories-first";
   alias l="exa -1";
   alias ll="exa -lg";
   alias la="LC_COLLATE=C exa -la";
@@ -66,9 +65,3 @@ take() {
 zman() {
   PAGER="less -g -I -s '+/^       "$1"'" man zshall;
 }
-
-# Create a reminder with human-readable durations, e.g. 15m, 1h, 40s, etc
-r() {
-  local time=$1; shift
-  sched "$time" "notify-send --urgency=critical 'Reminder' '$@'; ding";
-}; compdef r=sched

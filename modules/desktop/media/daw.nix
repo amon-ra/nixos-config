@@ -17,9 +17,10 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      lmms       # for making music
-      # sunvox     # my favorite midi tracker
-      # audacity   # for recording and remastering audio
+      lmms        # for making music
+      sunvox      # for making music (where LMMS is overkill)
+      audacity    # for recording and remastering audio
+      lilypond    # music typesetting system
     ];
   };
 }

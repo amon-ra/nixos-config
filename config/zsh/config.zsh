@@ -1,17 +1,9 @@
-# Stop TRAMP (in Emacs) from hanging or term/shell from echoing back commands
-if [[ $TERM == dumb || -n $INSIDE_EMACS ]]; then
-  unsetopt zle prompt_cr prompt_subst
-  whence -w precmd >/dev/null && unfunction precmd
-  whence -w preexec >/dev/null && unfunction preexec
-  PS1='$ '
-fi
-
 ## General
-export _FASD_DATA="$XDG_CACHE_HOME/fasd"
-export _FASD_VIMINFO="$XDG_CACHE_HOME/viminfo"
+# export _FASD_DATA="$XDG_CACHE_HOME/fasd"
+# export _FASD_VIMINFO="$XDG_CACHE_HOME/viminfo"
 
 # Treat these characters as part of a word.
-WORDCHARS='_-*?[]~&.;!#$%^(){}<>'
+WORDCHARS='_*?[]~&;!#$%^(){}<>'
 
 unsetopt BRACE_CCL        # Allow brace character class list expansion.
 setopt COMBINING_CHARS    # Combine zero-length punc chars (accents) with base char
@@ -33,8 +25,8 @@ unsetopt CHECK_JOBS       # Don't report on jobs when shell exit.
 
 ## History
 HISTFILE="$XDG_CACHE_HOME/zhistory"
-HISTSIZE=1000                    # Max events to store in internal history.
-SAVEHIST=1000                    # Max events to store in history file.
+HISTSIZE=10000                   # Max events to store in internal history.
+SAVEHIST=10000                   # Max events to store in history file.
 
 setopt BANG_HIST                 # Don't treat '!' specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.

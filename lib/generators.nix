@@ -4,19 +4,19 @@ with builtins;
 with lib;
 {
   toCSSFile = file:
-    let fileName = removeSuffix ".scss" (baseNameOf file);
+    let fileName = baseNameOf file;
         compiledStyles =
           pkgs.runCommand "compileScssFile"
-            { buildInputs = [ pkgs.sass ]; } ''
+            { buildInputs = [ sass ]; } ''
               mkdir "$out"
-              scss --sourcemap=none \
+              scss --sourcekkmap=none \
                    --no-cache \
                    --style compressed \
                    --default-encoding utf-8 \
                    "${file}" \
                    >>"$out/${fileName}.css"
             '';
-    in "${compiledStyles}/${fileName}.css";
+    in "${compiledStyles}/${fileName}";
 
   toFilteredImage = imageFile: options:
     let result = "result.png";

@@ -24,29 +24,39 @@ in {
     ];
 
     user.packages = with pkgs; [
-      feh       # image viewer
-      xclip
-      xdotool
-      xorg.xwininfo
-      libqalculate  # calculator cli w/ currency conversion
-      (makeDesktopItem {
-        name = "scratch-calc";
-        desktopName = "Calculator";
-        icon = "calc";
-        exec = ''scratch "${tmux}/bin/tmux new-session -s calc -n calc qalc"'';
-        categories = "Development";
-      })
+      xclip                 # access X clipboard from console
+      xdo                   # perform elementary actions on X windows
+      xdotool               # X input and window management tool
+      fontpreview           # minimal font viewer
+      sxiv                  # simple X image viewer (dependency fontpreview)
+      feh                   # light-weight image viewer 
+      qgnomeplatform        # QPlatformTheme for a better Qt application inclusion in GNOME
+      qt5ct                 # Qt5 Configuration Tool
+      libsForQt5.qtstyleplugin-kvantum # SVG-based Qt5 theme engine plus a config tool and extra themes
     ];
 
     fonts = {
-      fontDir.enable = true;
+      enableFontDir = true;
       enableGhostscriptFonts = true;
       fonts = with pkgs; [
         ubuntu_font_family
         dejavu_fonts
         symbola
         noto-fonts
-        noto-fonts-cjk
+        carlito
+        emojione
+        fira-code
+        fira-code-symbols
+        font-awesome_5
+        hack-font
+        lato
+        source-code-pro
+        source-han-mono
+        source-han-sans
+        source-han-serif
+        source-sans-pro
+        source-serif-pro
+        unstable.julia-mono
       ];
     };
 
@@ -102,10 +112,10 @@ in {
       };
     };
 
-    # Try really hard to get QT to respect my GTK theme.
+    # Apply suggestion by benneti to use kvantum to configure QT apps
     env.GTK_DATA_PREFIX = [ "${config.system.path}" ];
-    env.QT_QPA_PLATFORMTHEME = "gtk2";
-    qt5 = { style = "gtk2"; platformTheme = "gtk2"; };
+    env.QT_QPA_PLATFORMTHEME = "gnome";
+    env.QT_STYLE_OVERRIDE = "kvantum";
 
     services.xserver.displayManager.sessionCommands = ''
       # GTK2_RC_FILES must be available to the display manager.
@@ -114,7 +124,7 @@ in {
 
     # Clean up leftovers, as much as we can
     system.userActivationScripts.cleanupHome = ''
-      pushd "${config.user.home}"
+      pushd "${homeDir}"
       rm -rf .compose-cache .nv .pki .dbus .fehbg
       [ -s .xsession-errors ] || rm -f .xsession-errors*
       popd

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- <template id="{{snakeCase name}}" inherit_id="employee_check_inout.print_weekly_hours_template">
+
+        <t t-call="report.external_layout">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                <div class="page">
+                    <div class="row">
+                    <table class="table table-condensed">
+                    </table>
+                    </div>
+                </div>             
+                </t>
+            </t>
+        </t>
+        </template> -->
+
+    </data>
+</openerp>

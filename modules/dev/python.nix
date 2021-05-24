@@ -1,8 +1,4 @@
-# modules/dev/python.nix --- https://godotengine.org/
-#
-# Python's ecosystem repulses me. The list of environment "managers" exhausts
-# me. The Py2->3 transition make trainwrecks jealous. But SciPy, NumPy, iPython
-# and Jupyter can have my babies. Every single one.
+# modules/dev/python.nix
 
 { config, options, lib, pkgs, my, ... }:
 
@@ -16,13 +12,23 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      python37
-      python37Packages.pip
-      python37Packages.ipython
-      python37Packages.black
-      python37Packages.setuptools
-      python37Packages.pylint
-      python37Packages.poetry
+      python38
+      python38Packages.pip
+      python38Packages.pipdate    # pip update helpers
+      python38Packages.virtualenv
+      python38Packages.pytest-virtualenv
+      python38Packages.virtualenv-clone
+      python38Packages.tox
+      python38Packages.ipython
+      python38Packages.setuptools
+      python38Packages.pylint
+      python38Packages.poetry     # Python dependency management and packaging made easy
+      python38Packages.jupyterlab # Jupyter lab environment notebook server extension
+      # python38Packages.jupytext   # Jupyter notebooks as Markdown documents, Julia, Python or R scripts
+      ansible                     # automation tool
+      ansible-lint                # linter for ansible
+      unstable.esptool            # ESP8266 and ESP32 serial bootloader utility
+      unstable.micropython        # Python implementation for MCUs
     ];
 
     env.IPYTHONDIR      = "$XDG_CONFIG_HOME/ipython";

@@ -2,12 +2,11 @@
 # https://github.com/hlissner/doom-emacs. This module sets it up to meet my
 # particular Doomy needs.
 
-{ config, lib, pkgs, inputs, ... }:
+{ config, options, lib, pkgs, inputs, ... }:
 
 with lib;
 with lib.my;
 let cfg = config.modules.editors.emacs;
-    configDir = config.dotfiles.configDir;
 in {
   options.modules.editors.emacs = {
     enable = mkBoolOpt false;

@@ -1,96 +1,208 @@
-super + alt + Escape
-	bspc quit
+## Programs ##
 
-super + {_,shift + }q
-	bspc node -{c,k}
+super + alt + f
+    firefox
 
-super + t
-	bspc desktop -l next
+super + alt + x
+    keepassxc
 
-super + apostrophe
-	bspc window -s last
+super + alt + s
+    signal-desktop
 
-# Attach to a detached session. If none is available create a new one, rather
-# than attach to one that is already attached to elsewhere.
-super + Return
-	xst -e bash -c "(tmux ls | grep -qEv 'attached|scratch' && tmux at) || tmux"
+super + alt + t
+    telegram-desktop
 
-ctrl + super + Return
-	xst
+super + alt + d
+    thunar
 
-# Open a disposable, floating terminal window, for quick shell commands.
-super + grave
-	scratch
+super + alt + l
+    libreoffice
 
-# Open a disposable scratch buffer in a floating Emacs window, to run arbitrary
-# code or quickly note something down.
-super + shift + grave
-	emacsclient --eval "(open-scratch-frame)"
+super + alt + e
+    fractal
+
+super + alt + c
+    codium
+
+super + alt + k
+    kitty
+
+super + alt + m
+    kitty musikcube
+
+super + alt + w
+    kitty weechat
+
+super + alt + a
+    kitty aerc
 
 # Invoke emacs-everywhere at point.
 super + e
     emacsclient --eval "(emacs-everywhere)"
 
-super + space
-	$DOTFILES_BIN/rofi/appmenu
+### Open all one-off terminal tools in floating xst window
 
-super + Tab
-	$DOTFILES_BIN/rofi/windowmenu
+super + alt + q
+    xst -g 80x15
 
+super + alt + v
+    xst -g 80x15 pulsemixer
+
+super + alt + j
+    xst -g 80x15 -f JuliaMono-18 julia
+
+super + alt + p
+    xst -g 80x15 python
+
+## Volume Control ##
+
+super + alt + Return
+	pulsemixer --toggle-mute && notify-send 'Muted/Unmuted'
+	
+crtl + alt + Up
+	pulsemixer --change-volume -"10" --unmute && notify-send 'Raised Volume'
+	
+crtl + alt + Down
+	pulsemixer --change-volume +"10" --unmute && notify-send 'Decreased Volume'
+
+## Media Control ##
+
+super + alt + space
+	playerctl play-pause
+	
+super + alt + Right
+	playerctl next
+	
+super + alt + Left
+	playerctl previous
+
+## Rofi ##
+
+super + d
+	$DOTFILES/bin/rofi/appmenu
+
+alt + Tab
+	$DOTFILES/bin/rofi/windowmenu
+
+alt + backslash
+	$DOTFILES/bin/rofi/passmenu
+
+alt + slash
+	$DOTFILES/bin/rofi/filemenu -x
+
+alt + Return
+	$DOTFILES/bin/rofi/powermenu -x
+
+## Node Controls ##
+
+## Switch between preset keymaps
+ctrl + super + space
+    $DOTFILES/bin/keymapswitcher
+
+## Toggle Polybar
+super + alt + p
+    polybar-msg cmd toggle && bspc config -m primary top_padding 0
+
+## Toggle window gap
+super + g
+    if [[ $(bspc config -d focused window_gap) -eq 150 ]]; then bspc config -d focused window_gap 20; else bspc config -d focused window_gap 150; fi
+
+## Toggle focus follow for nodes
 super + p
-	$DOTFILES_BIN/rofi/bwmenu
+	bspc config focus_follows_pointer {false,true}
 
-super + shift + p
-	$DOTFILES_BIN/rofi/bwmenu -r
+## Toggle Wacom device	
+super + w
+	wacom-toggle
 
-super + slash
-	$DOTFILES_BIN/rofi/filemenu -x
+## Rotate Wacom device	
+super + r
+	wacom-rotate
 
-super + Escape
-	pkill -USR1 -x sxhkd
+## Quit active node
+super + {_,shift + }q
+	bspc node -{c,k}
 
+## Send active node to desktop on last used monitor and switch to it
+super + shift + m
+    bspc node -m last --follow
 
-#
-##
+## Send to desktop with number and follow
+super + shift + {1-9,0}
+    bspc node -d '^{1-9,10}' --follow
 
-## Toggle floating/fullscreen
+## Switch to desktop with number
+super + {1-9,0}
+    bspc desktop --focus '^{1-9,10}'
+
+## Toggle fullscreen for active node
+super + t
+	bspc desktop -l next
+
+## Toggle floating/tiling for active node
 super + {_,ctrl + }f
 	bspc node -t ~{floating,fullscreen}
 
-
+## Change active node
 super + {_,ctrl +}{h,j,k,l}
-	$DOTFILES_BIN/bspwm/focus {_,-m }{west,south,north,east}
+	$DOTFILES/bin/bspwm/focus {_,-m }{west,south,north,east}
 
+## Swap nodes 
 super + shift + {_,ctrl +}{h,j,k,l}
-	$DOTFILES_BIN/bspwm/swap {_,-m }{west,south,north,east}
+	$DOTFILES/bin/bspwm/swap {_,-m }{west,south,north,east}
 
-## Resize by preselection
-super + alt + {1-9}
-	$DOTFILES/bin/bspwm/presel 0.{1-9}
 
+super + alt + {1-9,0}
+    bspc {desktop -f,node -d} {1-9,10};
+
+## Open new node in preselected space
 super + alt + {h,j,k,l}
 	bspc node -p {west,south,north,east}
 
-super + alt + Return
-	$DOTFILES/bin/bspwm/subtract-presel
-
+## Cancel resizing by preselection
 super + alt + Delete
 	bspc node -p cancel
 
-super + {_,shift +}{1-9,0}
-	bspc {desktop -f,node -d} {1-9,10};
+# super + alt + Return
+	# $DOTFILES/bin/bspwm/subtract-presel
 
-# expand a window by moving one of its side outward
+# Expand a node by moving one of its side outward
 super + {Left,Down,Up,Right}
 	bspc node -z {left -40 0,bottom 0 40,top 0 -40,right 40 0}
 
-# contract a window by moving one of its side inward
+# Contract a node by moving one of its side inward
 super + ctrl + {Left,Down,Up,Right}
 	bspc node -z {right -40 0,top 0 40,bottom 0 -40,left 40 0}
 
-# move a floating window
+# Move a floating node
 super + shift + {Left,Down,Up,Right}
 	bspc node -v {-40 0,0 40,0 -40,40 0}
+
+# Screenshot region
+super + s
+	scrcap
+
+# ---- don't really get these ----
+
+## Attach to a detached session. If none is available create a new one, rather
+## than attach to one that is already attached to elsewhere.
+
+# super + Escape
+	# pkill -USR1 -x sxhkd
+
+super + {_,shift +}{1-9}
+	$DOTFILES/bin/bspwm/presel 0.{1-9}
+
+super + a
+	bspc window -s last
+
+# # Screencast region to mp4
+# super + c
+	# scrrec -s ~/Pictures/Screenshots/$(date +%F-%T).mp4
+	
+# # Screencast region to gif
+# super + g
+	# scrrec -s ~/Videos/Screen\ Recordings/$(date +%F-%T).gif
 
 
 #
@@ -126,4 +238,3 @@ XF86AudioPrev
 	spt-send prev
 
 # X86Search
-
