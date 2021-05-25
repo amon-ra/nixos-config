@@ -17,6 +17,7 @@
       thunar.enable     = true;
       vscodium.enable   = true;
       apps = {
+        remote.enable         = true;
         anki.enable           = true;
         blender.enable        = true;
         calibre.enable        = true;

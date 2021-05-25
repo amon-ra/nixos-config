@@ -3,6 +3,8 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias -- -='cd -'
 
+alias myip "dig +short myip.opendns.com @208.67.222.222 2>&1"
+
 alias q=exit
 alias clr=clear
 alias please='sudo '
@@ -13,7 +15,7 @@ alias mv='mv -v'
 alias mkdir='mkdir -p'
 alias wget='wget -c'
 alias cat='bat -Pp'
-alias find='fd'
+# alias find='fd'
 alias replace='sd'
 alias cdd='cd $XDG_CONFIG_HOME/dotfiles'
 alias cds='cd /etc/nixos'
@@ -44,10 +46,13 @@ alias scan="sudo nmap -sn 192.168.8.0/24 | sed -e 's#.*for \(\)#\1#' | sed '/^Ho
 alias ducks="sudo du -cks -- * | sort -rn | head"
 # rm EXIF data from images in directory
 alias rmexif='exiftool -all='
+alias top='gotop'
 
-
-alias sc=systemctl
-alias ssc='sudo systemctl'
+alias us=systemctl
+alias s='sudo systemctl'
+alias j=journalctl
+alias r='us restart'
+alias hey='sudo sh -c "cd /etc/nixos;nix-shell --run \"hey $*\""'
 
 if command -v exa >/dev/null; then
   alias exa="exa --group-directories-first";

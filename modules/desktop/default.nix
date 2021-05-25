@@ -22,9 +22,9 @@ in {
         message = "Can't enable a desktop app without a desktop environment";
       }
     ];
-    environment.systemPackages = with pkgs; [
+    # environment.systemPackages = with pkgs; [
 
-        ];
+    #     ];
     user.packages = with pkgs; [
       arandr
       gotop
@@ -53,6 +53,7 @@ in {
         fira-code-symbols
         font-awesome_5
         hack-font
+        iosevka
         lato
         source-code-pro
         source-han-mono
@@ -60,7 +61,9 @@ in {
         source-han-serif
         source-sans-pro
         source-serif-pro
+        unifont
         unstable.julia-mono
+
       ];
     };
 

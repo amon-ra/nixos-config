@@ -36,6 +36,9 @@ super + alt + w
 super + alt + a
     kitty aerc
 
+super + Return
+    kitty
+
 # Invoke emacs-everywhere at point.
 super + e
     emacsclient --eval "(emacs-everywhere)"
