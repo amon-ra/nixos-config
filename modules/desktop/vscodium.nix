@@ -5,60 +5,60 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.vscodium;
-  vscodeExtensions = (with pkgs.vscode-extensions; [
+  extensions = (with pkgs.unstable.vscode-extensions; [
     bbenoist.Nix
-    #arrterian.nix-env-selector
+    # arrterian.nix-env-selector
     ms-python.python
     # ms-azuretools.vscode-docker
     ms-vscode-remote.remote-ssh
+    # Wakatime.vscode-wakatime
     #vscoss.vscode-ansible
     #hookyqr.beautify
     #samuelcolvin.jinjahtml
-    giladgray.theme-blueprint
-    teamchilla.blueprint
-    alefragnani.bookmarks
-    deerawan.vscode-dash
-    msjsdiag.debugger-for-chrome
-    batisteo.vscode-django
-    editorconfig.editorconfig
-    dbaeumer.vscode-eslint
-    mrorz.language-gettext
-    eamodio.gitlens
-    dchanco.vsc-invoke
-    xabikos.javascriptsnippets
-    wholroyd.jinja
-    dbaeumer.jshint
-    ms-vsliveshare.vsliveshare-pack
-    emilast.logfilehighlighter
-    actboy168.lua-debug
-    davidanson.vscode-markdownlint
-    jeffery9.odoo-snippets
-    jigar-patel.odoosnippets
-    sandcastle.vscode-open
-    fabiospampinato.vscode-open-multiple-files
-    ryu1kn.partial-diff
-    felixfbecker.php-pack
-    esbenp.prettier-vscode
-    ms-python.vscode-pylance
-    njpwerner.autodocstring
-    kevinrose.vsc-python-indent
-    mgesbert.python-path
-    mechatroner.rainbow-csv
-    ms-vscode-remote.remote-ssh-edit
-    eamodio.restore-editors
-    emeraldwalk.runonsave
-    syler.sass-indented
-    actboy168.tasks
-    wayou.vscode-todo-highlight
-    gruntfuggly.todo-tree
-    octref.vetur
-    visualstudioexptteam.vscodeintellicode
-    uctakeoff.vscode-counter
-    bajdzis.vscode-database
-    yahya-gilany.vscode-pomodoro
-    wakatime.vscode-wakatime
-    johnbillion.vscode-wordpress-hooks
-    redhat.vscode-xml
+    # giladgray.theme-blueprint
+    # teamchilla.blueprint
+    # alefragnani.bookmarks
+    # deerawan.vscode-dash
+    # msjsdiag.debugger-for-chrome
+    # batisteo.vscode-django
+    # editorconfig.editorconfig
+    # dbaeumer.vscode-eslint
+    # mrorz.language-gettext
+    # eamodio.gitlens
+    # dchanco.vsc-invoke
+    # xabikos.javascriptsnippets
+    # wholroyd.jinja
+    # dbaeumer.jshint
+    # ms-vsliveshare.vsliveshare-pack
+    # emilast.logfilehighlighter
+    # actboy168.lua-debug
+    # davidanson.vscode-markdownlint
+    # jeffery9.odoo-snippets
+    # jigar-patel.odoosnippets
+    # sandcastle.vscode-open
+    # fabiospampinato.vscode-open-multiple-files
+    # ryu1kn.partial-diff
+    # felixfbecker.php-pack
+    # esbenp.prettier-vscode
+    # ms-python.vscode-pylance
+    # njpwerner.autodocstring
+    # kevinrose.vsc-python-indent
+    # mgesbert.python-path
+    # mechatroner.rainbow-csv
+    # ms-vscode-remote.remote-ssh-edit
+    # eamodio.restore-editors
+    # emeraldwalk.runonsave
+    # syler.sass-indented
+    # actboy168.tasks
+    # wayou.vscode-todo-highlight
+    # gruntfuggly.todo-tree
+    # octref.vetur
+    # visualstudioexptteam.vscodeintellicode
+    # uctakeoff.vscode-counter
+    # bajdzis.vscode-database
+    # yahya-gilany.vscode-pomodoro
+    # johnbillion.vscode-wordpress-hooks
+    # redhat.vscode-xml
   ])
     #   ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [{
     #     name = "remote-ssh-edit";

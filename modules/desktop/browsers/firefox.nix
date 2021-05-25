@@ -47,10 +47,10 @@ in {
         # Enable userContent.css and userChrome.css for our theme modules
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         # Stop creating ~/Downloads!
-        "browser.download.dir" = "${homeDir}/dl";
+        # "browser.download.dir" = "${homeDir}/dl";
         # Don't use the built-in password manager; a nixos user is more likely
         # using an external one (you are using one, right?).
-        "signon.rememberSignons" = false;
+        # "signon.rememberSignons" = false;
         # Do not check if Firefox is the default browser
         "browser.shell.checkDefaultBrowser" = false;
         # Disable the "new tab page" feature and show a blank tab instead i fdesired

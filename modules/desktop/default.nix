@@ -22,8 +22,12 @@ in {
         message = "Can't enable a desktop app without a desktop environment";
       }
     ];
+    environment.systemPackages = with pkgs; [
 
+        ];
     user.packages = with pkgs; [
+      arandr
+      gotop
       xclip                 # access X clipboard from console
       xdo                   # perform elementary actions on X windows
       xdotool               # X input and window management tool

@@ -19,7 +19,7 @@ in {
       passwordAuthentication = true;
       forwardX11 = true;
       permitRootLogin = "no";
-      startWhenNeeded = true;      
+      # startWhenNeeded = true;      
     };
 
     user.openssh.authorizedKeys.keys = [
