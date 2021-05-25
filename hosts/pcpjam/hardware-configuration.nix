@@ -1,6 +1,7 @@
 { config, lib, pkgs, inputs, modulesPath, ... }:
-
-{
+let 
+  mitigations = "ibrs noibpb nopti nospectre_v2 nospectre_v1 l1tf=off nospec_store_bypass_disable no_stf_barrier mds=off tsx=on tsx_async_abort=off mitigations=off";
+in {
   imports =
     [ 
       (modulesPath + "/installer/scan/not-detected.nix")
@@ -15,8 +16,16 @@
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "sd_mod" "acpi_call" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = [ "kvm-amd" "amdgpu" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
+  boot.kernelParams = [ "amd_iommu=pt" ] ++ lib.splitString " " mitigations;
+  # https://bugzilla.kernel.org/show_bug.cgi?id=110941
+  #boot.kernelParams = [ "intel_pstate=no_hwp" ];
+  #boot.kernelParams = [ "amd_iommu=pt" "ivrs_ioapic[32]=00:14.0" "iommu=soft" ];
+  
+  # video
+  # services.xserver.videoDrivers = [ "displaylink" "modesetting" ];  
+  services.xserver.videoDrivers = [ "displaylink" "amdgpu" ];  
 
   #fix touchpac
   # hardware.enableAllFirmware = true;
@@ -30,9 +39,6 @@
   #   "transparent_hugepage=never"
   # ];
   #boot.loader.grub.copyKernels = true;
-  # https://bugzilla.kernel.org/show_bug.cgi?id=110941
-  #boot.kernelParams = [ "intel_pstate=no_hwp" ];
-  #boot.kernelParams = [ "amd_iommu=pt" "ivrs_ioapic[32]=00:14.0" "iommu=soft" ];
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportAll = false;
   boot.zfs.devNodes = "/dev/disk/by-partuuid";
