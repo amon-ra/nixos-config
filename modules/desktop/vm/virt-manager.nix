@@ -16,8 +16,9 @@ in {
       unstable.libvirt
     ];
     
-    user.extraGroups = [ "libvirt" ];
+    user.extraGroups = [ "libvirtd" ];
 
+    programs.dconf.enable = true;
     virtualisation.libvirtd.enable = true;
   };
 }

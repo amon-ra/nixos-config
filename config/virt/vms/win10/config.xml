@@ -1,0 +1,170 @@
+<domain xmlns:qemu="http://libvirt.org/schemas/domain/qemu/1.0" type="kvm">
+  <name>Win10</name>
+  <uuid>09900b82-7e22-4d71-bfbc-1b2f6a8a7671</uuid>
+  <metadata>
+    <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
+      <libosinfo:os id="http://microsoft.com/win/10"/>
+    </libosinfo:libosinfo>
+  </metadata>
+  <memory unit="KiB">4194304</memory>
+  <currentMemory unit="KiB">4194304</currentMemory>
+  <vcpu placement="static" current="2">9</vcpu>
+  <iothreads>1</iothreads>
+  <cputune>
+    <vcpupin vcpu="0" cpuset="1"/>
+    <vcpupin vcpu="1" cpuset="2"/>
+    <vcpupin vcpu="2" cpuset="3"/>
+    <vcpupin vcpu="3" cpuset="5"/>
+    <vcpupin vcpu="4" cpuset="6"/>
+    <vcpupin vcpu="5" cpuset="7"/>
+    <emulatorpin cpuset="0,4"/>
+    <iothreadpin iothread="1" cpuset="0,4"/>
+  </cputune>
+  <os>
+    <type arch="x86_64" machine="pc-i440fx-4.1">hvm</type>
+    <loader readonly="yes" type="pflash">/usr/share/ovmf/x64/OVMF_CODE.fd</loader>
+    <nvram>/var/lib/libvirt/qemu/nvram/Win10_VARS.fd</nvram>
+    <bootmenu enable="yes"/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <hyperv>
+      <relaxed state="on"/>
+      <vapic state="on"/>
+      <spinlocks state="on" retries="8191"/>
+      <vendor_id state="on" value="12alphanum"/>
+    </hyperv>
+    <kvm>
+      <hidden state="on"/>
+    </kvm>
+    <vmport state="off"/>
+  </features>
+  <cpu mode="host-model" check="partial">
+    <topology sockets="1" dies="1" cores="3" threads="3"/>
+  </cpu>
+  <clock offset="localtime">
+    <timer name="rtc" tickpolicy="catchup"/>
+    <timer name="pit" tickpolicy="delay"/>
+    <timer name="hpet" present="no"/>
+    <timer name="hypervclock" present="yes"/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+  <pm>
+    <suspend-to-mem enabled="no"/>
+    <suspend-to-disk enabled="no"/>
+  </pm>
+  <devices>
+    <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <disk type="file" device="cdrom">
+      <driver name="qemu" type="raw"/>
+      <source file="/usr/share/virtio/virtio-win.iso"/>
+      <target dev="hda" bus="ide"/>
+      <readonly/>
+      <address type="drive" controller="0" bus="0" target="0" unit="0"/>
+    </disk>
+    <disk type="file" device="cdrom">
+      <driver name="qemu" type="raw"/>
+      <source file="/home/juanra/Downloads/LTSC.X64.es-ES.NOV2020.ISO"/>
+      <target dev="hdb" bus="ide"/>
+      <readonly/>
+      <boot order="1"/>
+      <address type="drive" controller="0" bus="0" target="0" unit="1"/>
+    </disk>
+    <disk type="file" device="disk">
+      <driver name="qemu" type="raw" cache="none" discard="ignore" detect_zeroes="off"/>
+      <source file="/dev/mapper/nixos-win10"/>
+      <target dev="vdb" bus="virtio"/>
+      <boot order="2"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x0c" function="0x0"/>
+    </disk>
+    <controller type="pci" index="0" model="pci-root"/>
+    <controller type="ide" index="0">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x01" function="0x1"/>
+    </controller>
+    <controller type="virtio-serial" index="0">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x06" function="0x0"/>
+    </controller>
+    <controller type="usb" index="0" model="qemu-xhci" ports="15">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x05" function="0x0"/>
+    </controller>
+    <controller type="scsi" index="0" model="virtio-scsi">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x0a" function="0x0"/>
+    </controller>
+    <controller type="sata" index="0">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x0b" function="0x0"/>
+    </controller>
+    <interface type="bridge">
+      <mac address="52:54:00:0d:8d:17"/>
+      <source bridge="virbr0"/>
+      <model type="virtio"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x0"/>
+    </interface>
+    <serial type="pty">
+      <target type="isa-serial" port="0">
+        <model name="isa-serial"/>
+      </target>
+    </serial>
+    <console type="pty">
+      <target type="serial" port="0"/>
+    </console>
+    <channel type="spicevmc">
+      <target type="virtio" name="com.redhat.spice.0"/>
+      <address type="virtio-serial" controller="0" bus="0" port="1"/>
+    </channel>
+    <input type="mouse" bus="ps2"/>
+    <input type="keyboard" bus="virtio">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x04" function="0x0"/>
+    </input>
+    <input type="keyboard" bus="ps2"/>
+    <input type="tablet" bus="virtio">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x0f" function="0x0"/>
+    </input>
+    <graphics type="spice" keymap="es">
+      <listen type="none"/>
+      <gl enable="yes" rendernode="/dev/dri/by-path/pci-0000:00:02.0-render"/>
+    </graphics>
+    <sound model="ich9">
+      <codec type="micro"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x08" function="0x0"/>
+    </sound>
+    <video>
+      <model type="none"/>
+    </video>
+    <hostdev mode="subsystem" type="mdev" managed="no" model="vfio-pci" display="on">
+      <source>
+        <address uuid="b371b8b1-7be5-47ed-87bb-7d71127efeb6"/>
+      </source>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x03" function="0x0"/>
+    </hostdev>
+    <memballoon model="virtio">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x07" function="0x0"/>
+    </memballoon>
+  </devices>
+  <qemu:commandline>
+    <qemu:arg value="-acpitable"/>
+    <qemu:arg value="file=/home/juanra/virt/vms/win10/SSDT1.dat"/>
+    <qemu:arg value="-set"/>
+    <qemu:arg value="device.hostdev0.x-igd-opregion=on"/>
+    <qemu:arg value="-set"/>
+    <qemu:arg value="device.hostdev0.x-igd-gms=1"/>
+    <qemu:arg value="-set"/>
+    <qemu:arg value="device.hostdev0.display=on"/>
+    <qemu:arg value='-set'/>
+    <qemu:arg value='device.hostdev0.xres=1920'/>
+    <qemu:arg value='-set'/>
+    <qemu:arg value='device.hostdev0.yres=1080'/>    
+    <qemu:arg value="-set"/>
+    <qemu:arg value="device.hostdev0.romfile=/home/juanra/virt/vms/win10/vbios_gvt_uefi.rom"/>
+    <qemu:arg value="-set"/>
+    <qemu:arg value="device.hostdev0.ramfb=on"/>
+    <qemu:arg value="-set"/>
+    <qemu:arg value="device.hostdev0.driver=vfio-pci-nohotplug"/>
+    <qemu:env name="INTEL_DEBUG" value="norbc"/>
+    <qemu:env name="MESA_LOADER_DRIVER_OVERRIDE" value="i965"/>
+  </qemu:commandline>
+</domain>
+
+

@@ -10,7 +10,7 @@ super + alt + s
     signal-desktop
 
 super + alt + t
-    telegram-desktop
+    $DOTFILES/bin/bspwm/bspwm-toggle-visibility TelegramDesktop telegram-desktop
 
 super + alt + d
     thunar
@@ -84,16 +84,16 @@ super + alt + Left
 super + d
 	$DOTFILES/bin/rofi/appmenu
 
-alt + Tab
+super + Tab
 	$DOTFILES/bin/rofi/windowmenu
 
-alt + backslash
+super + 6
 	$DOTFILES/bin/rofi/passmenu
 
-alt + slash
+super + 7
 	$DOTFILES/bin/rofi/filemenu -x
 
-alt + Return
+super + 0
 	$DOTFILES/bin/rofi/powermenu -x
 
 ## Node Controls ##
@@ -103,7 +103,7 @@ ctrl + super + space
     $DOTFILES/bin/keymapswitcher
 
 ## Toggle Polybar
-super + alt + p
+super + z
     polybar-msg cmd toggle && bspc config -m primary top_padding 0
 
 ## Toggle window gap
@@ -127,16 +127,19 @@ super + {_,shift + }q
 	bspc node -{c,k}
 
 ## Send active node to desktop on last used monitor and switch to it
-super + shift + m
+Ctrl + super + m
     bspc node -m last --follow
 
+super + shift + m
+    bspc node -n last.!automatic
+
 ## Send to desktop with number and follow
-super + shift + {1-9,0}
-    bspc node -d '^{1-9,10}' --follow
+Ctrl + super + F{1-12}
+    bspc node -d '^{1-12}' --follow
 
 ## Switch to desktop with number
-super + {1-9,0}
-    bspc desktop --focus '^{1-9,10}'
+super + F{1-12}
+    bspc desktop --focus '^{1-12}'
 
 ## Toggle fullscreen for active node
 super + t
@@ -154,9 +157,12 @@ super + {_,ctrl +}{h,j,k,l}
 super + shift + {_,ctrl +}{h,j,k,l}
 	$DOTFILES/bin/bspwm/swap {_,-m }{west,south,north,east}
 
+#rotate
+super + shift + {d,a}
+    bspc node @/ -C {forward,backward}
 
-super + alt + {1-9,0}
-    bspc {desktop -f,node -d} {1-9,10};
+super + alt + F{1-12}
+    bspc {desktop -f,node -d} {1-12};
 
 ## Open new node in preselected space
 super + alt + {h,j,k,l}
@@ -193,8 +199,8 @@ super + s
 # super + Escape
 	# pkill -USR1 -x sxhkd
 
-super + {_,shift +}{1-9}
-	$DOTFILES/bin/bspwm/presel 0.{1-9}
+super + {_,shift +}{1-12}
+	$DOTFILES/bin/bspwm/presel 0.{1-12}
 
 super + a
 	bspc window -s last
@@ -221,10 +227,10 @@ super + Print
 super + ctrl + Print
 	scrrec -s ~/recordings/$(date +%F-%T).gif
 
-XF86MonBrightnessUp
-	light -A 5
-XF86MonBrightnessDown
-	light -U 5
+#XF86MonBrightnessUp
+#	light -A 5
+#XF86MonBrightnessDown
+#	light -U 5
 
 XF86AudioMute
 	amixer -q set Master toggle
@@ -241,3 +247,46 @@ XF86AudioPrev
 	spt-send prev
 
 # X86Search
+
+#
+# mouse bindings
+#
+
+# Move or resize window
+alt + button{1-3}
+	bspc pointer -g {move,resize_side,resize_corner}
+
+# Needed for ^^^^
+alt + !button{1-3}
+    bspc pointer -t %i %i
+
+
+super + @button{1-3}
+    bspc pointer -u
+	
+# Generate password
+super + r ; g ; p
+    tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard
+		
+# Show clipmenu
+super + v
+    CM_LAUNCHER=rofi clipmenu \
+        -location 1 \
+        -m -3 \
+        -no-show-icons \
+        -theme-str '* \{ font: 10px; \}' \
+        -theme-str 'listview \{ spacing: 0; \}' \
+        -theme-str 'window \{ width: 20em; \}'
+
+# Show help
+super + slash
+    sxhkd-help
+
+# Reload sxhkdrc
+super + shift + r
+    pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
+
+
+#VDESKTOPS
+Ctrl + Super + {1-9}
+	$DOTFILES/bin/bspwm/vdesktop '^{1-9}'

@@ -28,6 +28,7 @@ in {
     user.packages = with pkgs; [
       arandr
       gotop
+      clipmenu
       xclip                 # access X clipboard from console
       xdo                   # perform elementary actions on X windows
       xdotool               # X input and window management tool

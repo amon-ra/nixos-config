@@ -1,5 +1,6 @@
 ## Open
 
+- https://github.com/davatorium/rofi-scripts
 - lazydocker config in nix
 - ghostwriter config + theme
 - set up evolution

@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+for monitor in $(bspc query -M); do `bspc desktop -f $monitor/{1-3}`; done
