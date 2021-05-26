@@ -75,7 +75,7 @@
       shell.enable       = true;
     };
     editors = {
-      default      = "kakoune";
+      default      = "kak";
       emacs.enable = true;
       kakoune.enable   = true;
       # micro.enable = true;
