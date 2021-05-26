@@ -18,7 +18,7 @@ in {
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" "amdgpu" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
-  boot.kernelParams = [ "amd_iommu=pt" ] ++ lib.splitString " " mitigations;
+  boot.kernelParams = [ "" ] ++ lib.splitString " " mitigations;
   # https://bugzilla.kernel.org/show_bug.cgi?id=110941
   #boot.kernelParams = [ "intel_pstate=no_hwp" ];
   #boot.kernelParams = [ "amd_iommu=pt" "ivrs_ioapic[32]=00:14.0" "iommu=soft" ];
