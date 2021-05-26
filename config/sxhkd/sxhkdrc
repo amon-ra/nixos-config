@@ -155,14 +155,16 @@ super + {_,ctrl + }f
 	bspc node -t ~{floating,fullscreen}
 
 ## Change active node
-super + {_,ctrl +}{h,j,k,l}
-	$DOTFILES/bin/bspwm/focus {_,-m }{west,south,north,east}
+#super + {_,ctrl +}{h,j,k,l}
+#	$DOTFILES/bin/bspwm/focus {_,-m }{west,south,north,east}
 
 ## Swap nodes 
 #super + shift + {_,ctrl +}{h,j,k,l}
 #	$DOTFILES/bin/bspwm/swap {_,-m }{west,south,north,east}
 
 #rotate
+super + {h,l}
+    bspc node -f {prev,next}.local
 ctrl + super + {h,l}
     bspc node @/ -C {forward,backward}
 
